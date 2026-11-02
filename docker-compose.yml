@@ -1,0 +1,49 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: ai_uni_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-adviser}
+      POSTGRES_PASSWORD: ${DB_PASS:-adviser_pass}
+      POSTGRES_DB: ${DB_NAME:-ai_uni_adviser}
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-adviser} -d ${DB_NAME:-ai_uni_adviser}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: .
+    container_name: ai_uni_backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "5001:5000"
+    environment:
+      FLASK_APP: app.py
+      FLASK_ENV: development
+      DB_USER: ${DB_USER:-adviser}
+      DB_PASS: ${DB_PASS:-adviser_pass}
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-ai_uni_adviser}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      REDIS_URL: ${REDIS_URL:-}
+      RATELIMIT_STORAGE_URI: memory://
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:5173,http://127.0.0.1:5173}
+    volumes:
+      - .:/app
+      # Cache HuggingFace models để không tải lại mỗi lần restart
+      - hf_cache:/root/.cache/huggingface
+
+volumes:
+  pgdata:
+  hf_cache:
