@@ -21,5 +21,6 @@ Khi người dùng yêu cầu viết unit test cho một đoạn mã, hãy thự
    - Mỗi test case phải có mô tả rõ ràng bằng tiếng Anh hoặc tiếng Việt về mục đích kiểm thử (ví dụ: `should return 0 when input is negative`).
 
 4. **Đầu ra yêu cầu (Output Format):**
-   - Chỉ trả về block mã nguồn của file Test (không giải thích lý thuyết dông dài).
-   - Gợi ý tên file test phù hợp (ví dụ: `auth.service.spec.ts` hoặc `test_auth.py`) và lệnh Terminal để chạy test đó.
+   - Sử dụng công cụ ghi file (Write File Tool) để tạo và lưu trực tiếp mã nguồn vào file test phù hợp (ví dụ: `tests/test_auth.py` hoặc `tests/auth.service.spec.ts`).
+   - Sau khi ghi file thành công, hiển thị đường dẫn file đã tạo và cung cấp lệnh Terminal chính xác để người dùng chạy test đó.
+
