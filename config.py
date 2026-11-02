@@ -14,7 +14,7 @@ class Config:
     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
     GROQ_API_KEY   = os.getenv("GROQ_API_KEY")
     GEMINI_MODEL   = "gemini-2.5-flash"
-    GROQ_MODEL     = "groq/compound-mini"
+    GROQ_MODEL     = "qwen/qwen3.8-27b"
 
     # Nếu không có Redis, REDIS_URL=None → cache bị skip, app vẫn chạy
     REDIS_URL = os.getenv("REDIS_URL", None)
